@@ -119,6 +119,10 @@ while (True):
 
         num = r
 
+def decrypter(message_chiffre, d, n):
+    message_decrypte = pow(message_chiffre, d, n)
+    return message_decrypte
+
 # print the result
 print("Prime factors of", n, "are", *ans)
 
@@ -177,7 +181,22 @@ if __name__ == '__main__':
     print("d : ------------------------")
     d = trouver_d(lambda_de_n, e_pour_dh)
     print(d)
+
+
+
+
     # étape4 décryper G P Q avec le d trouver
+    qdh_chiffre_dechiffrer = decrypter(qdh_chiffre_avec_RSA, d, n_pour_dh)
+    print("dechiffre q")
+    print(qdh_chiffre_dechiffrer)
+
+    gdh_chiffre_dechiffrer = decrypter(gdh_chiffre_avec_RSA, d, n_pour_dh)
+    print("dechiffre g")
+    print(gdh_chiffre_dechiffrer)
+
+    pdh_chiffre_dechiffrer = decrypter(pdh_chiffre_avec_RSA, d, n_pour_dh)
+    print("dechiffre p")
+    print(gdh_chiffre_dechiffrer)
     # note g est potentiellment mauvais
     # étape5 trouver xy de G^xy 0,1,-1 peut-être
     # étape6 déchiffre le document par flux
