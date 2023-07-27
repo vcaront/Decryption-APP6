@@ -108,12 +108,12 @@ if __name__ == '__main__':
     print("Q : ------------------------")
     print(factorQ)
 
-    PhiN = (factorP-1)*(facttorq-1)
+    PhiN = (factorP-1)*(factorQ-1)
     print("PhiN")
     print(PhiN)
 
     print("ppcm")
-    ppcm = ppcm((factorP-1),(facttorq-1))
+    ppcm = ppcm((factorP-1),(factorQ-1))
     print(ppcm)
 
     # a valider
