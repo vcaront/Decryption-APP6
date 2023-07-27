@@ -79,7 +79,9 @@ def pollard(n):
         # else increase exponent by one
         # for next round
         i += 1
-
+def decrypter(message_chiffre, d, n):
+    message_decrypte = pow(message_chiffre, d, n)
+    return message_decrypte
 
 if __name__ == '__main__':
     # variables importantes
