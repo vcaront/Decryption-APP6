@@ -1,10 +1,9 @@
-
-import  random
+import random
 import math
 
 import numpy as np
-import  sympy
-from  fractions import Fraction
+import sympy
+from fractions import Fraction
 
 
 
@@ -70,7 +69,7 @@ while (True):
     r = int(num / d)
 
     # check for prime using sympy
-    if (sympy.isprime(r)):
+    if sympy.isprime(r):
 
         # both prime factors obtained
         ans.append(r)
@@ -98,18 +97,16 @@ if __name__ == '__main__':
 
     print("hello world")
 
-
-
     # étape1 trouver P,Q de N et le e tout en haut avec polar
-    #factor = pollard_rho(n_pour_dh)
-    #factor = pollard_p_minus_1(n_pour_dh)
+    # factor = pollard_rho(n_pour_dh)
+    # factor = pollard_p_minus_1(n_pour_dh)
     factorP = pollard(n_pour_dh)
     print("P : ------------------------")
     print(factorP)
-    facttorq = Fraction(n_pour_dh, factorP)
-    #n_pour_dh / factorP
+    factorQ = Fraction(n_pour_dh, factorP)
+    # n_pour_dh / factorP
     print("Q : ------------------------")
-    print(facttorq)
+    print(factorQ)
 
     PhiN = (factorP-1)*(facttorq-1)
     print("PhiN")
@@ -127,7 +124,14 @@ if __name__ == '__main__':
 
 
     # étape2 trouver phi de n = (p-1)(q-1)
+
+    phi_de_n = (factorP - 1) * (factorQ - 1)
+    print("Phi de n : ------------------------")
+    print(phi_de_n)
     # étape3 trouver d d = inverse e ....
+    delta_de_n = int(phi_de_n / 2)
+    print("Delta de n : ------------------------")
+    print(delta_de_n)
     # étape4 décryper G P Q avec le d trouver
     # note g est potentiellment mauvais
     # étape5 trouver xy de G^xy 0,1,-1 peut-être
