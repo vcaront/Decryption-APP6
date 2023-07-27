@@ -1,80 +1,80 @@
-import math
-from math import gcd
+
 import  random
+import math
 
-def pow_mod(base, exponent, modulo):
-    return pow(base, exponent, modulo)
+import numpy as np
+import  sympy
+from  fractions import Fraction
 
-def extended_gcd(a, b):
-    # Cas de base : si b est égal à zéro, le PGCD est a et les coefficients de Bézout sont 1 et 0.
-    if b == 0:
-        return a, 1, 0
 
-    # Appliquer l'algorithme d'Euclide étendu de manière récursive.
-    gcd, x1, y1 = extended_gcd(b, a % b)
+# function to generate
+# prime factors
+def pollard(n):
+    # defining base
+    a = 2
 
-    # Calculer les nouveaux coefficients de Bézout.
-    x = y1
-    y = x1 - (a // b) * y1
+    # defining exponent
+    i = 2
 
-    return gcd, x, y
+    # iterate till a prime factor is obtained
+    while (True):
 
-def pgcd_reste(n, diff):
-    entier = n // diff
-    reste = n - entier * diff
-    ancien_reste = 0
+        # recomputing a as required
+        a = (a ** i) % n
 
-    while reste != 0:
-        new_n = diff
-        diff = reste
-        entier = new_n // diff
-        ancien_reste = reste
-        reste = new_n - entier * diff
+        # finding gcd of a-1 and n
+        # using math function
+        d = math.gcd((a - 1), n)
 
-    return ancien_reste
+        # check if factor obtained
+        if (d > 1):
+            # return the factor
+            return d
 
-def func(x):
-    #return pow_mod(x,2,n)+5
-    return x*x + 459
-def pollard_rho(n):
-    x = func(1)
-    y = func(func(1))
-    diff = y - x
+            break
 
-    pgcd = pgcd_reste(n, diff)
+        # else increase exponent by one
+        # for next round
+        i += 1
 
-    while pgcd == 1:
-        print("x =", x, " pgcd =", pgcd)
-        x = func(x) % n
-        y = func(func(y)) % n
-        diff = y - x
 
-        pgcd = pgcd_reste(n, diff)
-    return pgcd
+# Driver code
+n = 1403
 
-"""
-    x = func(1,n)
-    y = func(func(1,n),n)
+# temporarily storing n
+num = n
 
-    diff = y -x
-    entier = n // diff
-    restant = n % entier
-    produit = entier * diff
+# list for storing prime factors
+ans = []
 
-    while(restant != 0):
-        antierPrecedant = entier
-        restant = antierPrecedant // produit
-        diff = entier // restant
+# iterated till all prime factors
+# are obtained
+while (True):
 
-        entier = restant
-        produit = diff * entier
+    # function call
+    d = pollard(num)
 
-        #entier = produit
-        print(restant)
-        print("--------")
+    # add obtained factor to list
+    ans.append(d)
 
-    return entier
-"""
+    # reduce n
+    r = int(num / d)
+
+    # check for prime using sympy
+    if (sympy.isprime(r)):
+
+        # both prime factors obtained
+        ans.append(r)
+
+        break
+
+    # reduced n is not prime, so repeat
+    else:
+
+        num = r
+
+# print the result
+print("Prime factors of", n, "are", *ans)
 
 if __name__ == '__main__':
     n_public = 86062381025757488680496918738059554508315544797
@@ -93,8 +93,24 @@ if __name__ == '__main__':
 
     # étape1 trouver P,Q de N et le e tout en haut avec polar
     #factor = pollard_rho(n_pour_dh)
-    factor = pollard_rho(86429)
-    print(factor)
+    #factor = pollard_p_minus_1(n_pour_dh)
+    factorP = pollard(n_pour_dh)
+    print("P : ------------------------")
+    print(factorP)
+    facttorq = Fraction(n_pour_dh, factorP)
+    #n_pour_dh / factorP
+    print("Q : ------------------------")
+    print(facttorq)
+
+
+
+
+
+
+    print("fauxpositif : ------------------------")
+    fauxpositif = np.sqrt(float(n_pour_dh))
+    print(fauxpositif)
+
     # étape2 trouver phi de n = (p-1)(q-1)
     # étape3 trouver d d = inverse e ....
     # étape4 décryper G P Q avec le d trouver
