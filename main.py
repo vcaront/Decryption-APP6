@@ -79,9 +79,19 @@ def pollard(n):
         # else increase exponent by one
         # for next round
         i += 1
+
+
 def decrypter(message_chiffre, d, n):
     message_decrypte = pow(message_chiffre, d, n)
     return message_decrypte
+
+
+def phi_indicatrice_euler(n, facteurs):
+    indicatrice = n
+    for x in facteurs:
+        indicatrice *= Fraction(x-1, x)
+    return indicatrice
+
 
 if __name__ == '__main__':
     # variables importantes
@@ -124,8 +134,9 @@ if __name__ == '__main__':
     print("d : ------------------------")
     d = trouver_d(lambda_de_n, e_pour_dh)
     print(d)
-    
+
     # étape4 décryper G P Q avec le d trouver
+
     qdh_chiffre_dechiffrer = decrypter(qdh_chiffre_avec_RSA, d, n_pour_dh)
     print("dechiffre q")
     print(qdh_chiffre_dechiffrer)
@@ -136,8 +147,50 @@ if __name__ == '__main__':
 
     pdh_chiffre_dechiffrer = decrypter(pdh_chiffre_avec_RSA, d, n_pour_dh)
     print("dechiffre p")
-    print(gdh_chiffre_dechiffrer)
-    # note g est potentiellment mauvais
-    # étape5 trouver xy de G^xy 0,1,-1 peut-être
+    print(pdh_chiffre_dechiffrer)
+
+
+    # notre g est potentiellement mauvais ( g = p - 1)
+
+    # étape 5 trouver xy de G^xy 0,1,-1 peut-être
+    # g^xy mod p = 1 ou p - 1
+
     # étape6 déchiffre le document par flux
-    # étape7 décryperter le salaire avec le N et e publique avec la méthode. méthode p-1
+
+    # étape7 décrypter le salaire avec le N et e public avec la méthode p-1
+    def pgcd(a, b):
+        if b == 0:
+            return a
+        else:
+            r = a % b
+            return pgcd(b, r)
+
+
+    def rho_pollard(n):
+        def f(x):
+            return x * x + 1
+
+        x = 2
+        y = 2
+        d = 1
+        while d == 1:
+            x = f(x) % n
+            y = f(f(y)) % n
+            d = pgcd(x - y, n)
+        return d
+
+
+    p_public = rho_pollard(n_public)
+    print("P clé publique : ------------------")
+    print(p_public)
+    q_public = Fraction(n_public, p_public)
+    print("Q clé publique : ------------------")
+    print(q_public)
+    print("Q clé publique n'est pas premier")
+    q_public_fact1 = 1200001573
+    q_public_fact2 = 1800002359
+    q_public_fact3 = 66405897020462343733
+    facteurs_de_n_public = [p_public, q_public_fact1, q_public_fact2, q_public_fact3]
+    phi_de_n_public = phi_indicatrice_euler(n_public, facteurs_de_n_public)
+    print("Phi de n public : ------------")
+    print(phi_de_n_public)
