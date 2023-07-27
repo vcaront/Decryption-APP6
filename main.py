@@ -1,6 +1,4 @@
-import random
 import math
-
 import numpy as np
 import sympy
 from fractions import Fraction
@@ -9,10 +7,8 @@ from fractions import Fraction
 def ppcm(a, b):
     # Calculer le PGCD en utilisant math.gcd()
     pgcd = np.gcd(a, b)
-
     # Calculer le PPCM en utilisant la formule
     ppcm = (a * b) // pgcd
-
     return ppcm
 
 
@@ -24,6 +20,7 @@ def soustraire(liste1, liste2):
     return liste
 
 
+# multiplier les éléments d'une liste par un scalaire
 def multiplier(liste, scalaire):
     new_liste = []
     for i in range(len(liste)):
@@ -31,7 +28,7 @@ def multiplier(liste, scalaire):
     return new_liste
 
 
-# fonction pour trouver d
+# fonction pour trouver d à partir de lambda de n et e
 def trouver_d(lambda_de_n, e):
     nombre1 = lambda_de_n
     composition1 = [1, 0]
@@ -84,49 +81,8 @@ def pollard(n):
         i += 1
 
 
-# Driver code
-n = 1403
-
-# temporarily storing n
-num = n
-
-# list for storing prime factors
-ans = []
-
-# iterated till all prime factors
-# are obtained
-while (True):
-
-    # function call
-    d = pollard(num)
-
-    # add obtained factor to list
-    ans.append(d)
-
-    # reduce n
-    r = int(num / d)
-
-    # check for prime using sympy
-    if sympy.isprime(r):
-
-        # both prime factors obtained
-        ans.append(r)
-
-        break
-
-    # reduced n is not prime, so repeat
-    else:
-
-        num = r
-
-def decrypter(message_chiffre, d, n):
-    message_decrypte = pow(message_chiffre, d, n)
-    return message_decrypte
-
-# print the result
-print("Prime factors of", n, "are", *ans)
-
 if __name__ == '__main__':
+    # variables importantes
     n_public = 86062381025757488680496918738059554508315544797
     e_public = 13
 
@@ -137,43 +93,28 @@ if __name__ == '__main__':
     pdh_chiffre_avec_RSA = 55044587110698448189468021909149190373421069219506981148292634221985403129928367209713497911359302701069378532959510957622709061077384648566361893749771744973388835727259855002207844685526295296408852878202498675158924213264474587673461598376054133832370354928763624202425050121409987087150490459351809040858
     gdh_chiffre_avec_RSA = 43089172300844684958445369204000423742543038862350925279569289644298734265625491619486408239703259462606739540181409010715678916496299388069246398890469779970287613357772582024703107603034996120914490203805569384580718393586094166173301167583379300330660182750028000520221960355249560831414918130647224546308
 
-    print("hello world")
-
+    # Test d avec valeurs procédurale 1 exercice 3
     d = trouver_d(37038, 5)
     print("d : ------------------")
     print(d)
 
-    # étape1 trouver P,Q de N et le e tout en haut avec polar
-    # factor = pollard_rho(n_pour_dh)
-    # factor = pollard_p_minus_1(n_pour_dh)
+    # étape1 trouver P,Q de N et le e tout en haut avec Pollard
+
     factorP = pollard(n_pour_dh)
     print("P : ------------------------")
     print(factorP)
     factorQ = Fraction(n_pour_dh, factorP)
-    # n_pour_dh / factorP
     print("Q : ------------------------")
     print(factorQ)
 
-    """
-    PhiN = (factorP - 1) * (factorQ - 1)
-    print("PhiN")
-    print(PhiN)
-
-    print("ppcm")
-    ppcm = ppcm((factorP - 1), (factorQ - 1))
-    print(ppcm)
-
-    # a valider
-    LamdaN = Fraction(PhiN, 2)
-    print("lamdaN")
-    print(LamdaN)
-    """
     # étape2 trouver phi de n = (p-1)(q-1)
 
     phi_de_n = (factorP - 1) * (factorQ - 1)
     print("Phi de n : ------------------------")
     print(phi_de_n)
+
     # étape3 trouver d d = inverse e ....
+
     lambda_de_n = int(phi_de_n / 2)
     print("Lambda de n : ------------------------")
     print(lambda_de_n)
@@ -181,10 +122,7 @@ if __name__ == '__main__':
     print("d : ------------------------")
     d = trouver_d(lambda_de_n, e_pour_dh)
     print(d)
-
-
-
-
+    
     # étape4 décryper G P Q avec le d trouver
     qdh_chiffre_dechiffrer = decrypter(qdh_chiffre_avec_RSA, d, n_pour_dh)
     print("dechiffre q")
