@@ -194,3 +194,45 @@ if __name__ == '__main__':
     phi_de_n_public = phi_indicatrice_euler(n_public, facteurs_de_n_public)
     print("Phi de n public : ------------")
     print(phi_de_n_public)
+
+    d = 33100915677995941255459401914535119858511166597
+
+    salaire_Alain_crypte = 81530476374664351124876242644701327168836407987
+    salaire_Michele_crypte = 83740877821201430552252653974153238737996745098
+    salaire_Stephanie_crypte = 51373667846507963545859239582447701017826406175
+    salaire_Fernand_crypte = 61167846837720209456441528754183777549647735855
+    salaire_Angele_crypte = 42340513171888188994504759277496496710896088718
+    salaire_Bernard_crypte = 65069303637151076134861115122997306654987857614
+    salaire_Claude_crypte = 32785990179062766920584737848735367794508677603
+
+    salaire_Alain = decrypter(salaire_Alain_crypte, d, n_public)
+    print("Salaire de Alain")
+    print(salaire_Alain)
+
+    salaire_Michele = decrypter(salaire_Michele_crypte, d, n_public)
+    print("Salaire de Michele")
+    print(salaire_Michele)
+
+    salaire_Stephanie = decrypter(salaire_Stephanie_crypte, d, n_public)
+    print("Salaire de Stephanie")
+    print(salaire_Stephanie)
+
+    salaire_Fernand = decrypter(salaire_Fernand_crypte, d, n_public)
+    print("Salaire de Fernand")
+    print(salaire_Fernand)
+
+    salaire_Angele = decrypter(salaire_Angele_crypte, d, n_public)
+    print("Salaire de Angele")
+    print(salaire_Angele)
+
+    salaire_Bernard = decrypter(salaire_Bernard_crypte, d, n_public)
+    print("Salaire de Bernard")
+    print(salaire_Bernard)
+
+    salaire_Claude = decrypter(salaire_Claude_crypte, d, n_public)
+    print("Salaire de Claude")
+    print(salaire_Claude)
+
+
+
+

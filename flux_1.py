@@ -65,5 +65,5 @@ def chiffre_flux(cle,fichierin,fichierout):
     outfileobj.close()
 
 # Appel de la methode de chiffrement / dechiffrement de fichiers
-cle = 2**25 - 1 - (2**17 - 1) + 2**9 - 1
-chiffre_flux(cle,"test.txt","sortie.txt")
+cle = 2641298775947504857678907788656154323642285007244573799014424669093250917504047127787643053087739866096834676436160774037328187882
+chiffre_flux(cle,"salaires.mm","sortie_salaires.txt")
