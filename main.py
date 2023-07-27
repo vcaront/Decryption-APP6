@@ -1,4 +1,51 @@
 import math
+from math import gcd
+import  random
+
+def pow_mod(base, exponent, modulo):
+    return pow(base, exponent, modulo)
+
+def extended_gcd(a, b):
+    # Cas de base : si b est égal à zéro, le PGCD est a et les coefficients de Bézout sont 1 et 0.
+    if b == 0:
+        return a, 1, 0
+
+    # Appliquer l'algorithme d'Euclide étendu de manière récursive.
+    gcd, x1, y1 = extended_gcd(b, a % b)
+
+    # Calculer les nouveaux coefficients de Bézout.
+    x = y1
+    y = x1 - (a // b) * y1
+
+    return gcd, x, y
+
+def func(x,n):
+    #return pow_mod(x,2,n)+5
+    return x*x + 5
+def pollard_rho(n):
+    x = func(1,n)
+    y = func(func(1,n),n)
+
+    diff = y -x
+    entier = n // diff
+    restant = n % entier
+    produit = entier * diff
+
+    while(restant != 0):
+        antierPrecedant = entier
+        restant = antierPrecedant // produit
+        diff = entier // restant
+
+        entier = restant
+        produit = diff * entier
+
+        #entier = produit
+        print(restant)
+        print("--------")
+
+    return entier
+
+
 
 if __name__ == '__main__':
     n_public = 86062381025757488680496918738059554508315544797
@@ -14,63 +61,11 @@ if __name__ == '__main__':
     print("hello world")
 
 
+
     # étape1 trouver P,Q de N et le e tout en haut avec polar
-    def isprime(n):
-        n = 9
-        flag = 0
-        if n > 1:
-            for k in range(2, int(math.sqrt(n)) + 1):
-                if n % k == 0:
-                    flag = 1
-                break
-            if flag == 0:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-
-    """ Implementation of the pollard p-1 algorithm to find prime factors of the number"""
-
-
-    def pollardPMO(n):
-        a = 2
-        i = 2
-        """ continue operation till a prime factor is obtained """
-        while True:
-            a = (a ** i) % n
-            d = math.gcd((a - 1), n)
-            """check if factor obtained"""
-            if d > 1:
-                """factor found, return it"""
-                return d
-                break
-            """ exponent increment """
-            i += 1
-
-
-    n = n_pour_dh
-    """temporarily storing n"""
-    num = n
-    """list for storing prime factors of the number"""
-    res = []
-    """iterated till all prime factors are obtained"""
-    while True:
-        d = pollardPMO(num)
-        """ adding the prime number to the result array """
-        res.append(d)
-        """ exhausting the provided number """
-        r = int(num / d)
-        """ primality check """
-        if isprime(r):
-            """inserting the prime factor"""
-            res.append(r)
-            break
-        else:
-            num = r
-
-    print("Factors of the number:", n, "are", *res)
+    #factor = pollard_rho(n_pour_dh)
+    actor = pollard_rho(86429)
+    print(factor)
     # étape2 trouver phi de n = (p-1)(q-1)
     # étape3 trouver d d = inverse e ....
     # étape4 décryper G P Q avec le d trouver
