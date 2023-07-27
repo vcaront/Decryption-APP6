@@ -6,7 +6,6 @@ import sympy
 from fractions import Fraction
 
 
-
 def ppcm(a, b):
     # Calculer le PGCD en utilisant math.gcd()
     pgcd = np.gcd(a, b)
@@ -15,6 +14,45 @@ def ppcm(a, b):
     ppcm = (a * b) // pgcd
 
     return ppcm
+
+
+# soustraire 2 listes
+def soustraire(liste1, liste2):
+    liste = liste1
+    for i in range(len(liste1)):
+        liste[i] = liste1[i] - liste2[i]
+    return liste
+
+
+def multiplier(liste, scalaire):
+    new_liste = []
+    for i in range(len(liste)):
+        new_liste.append(scalaire * liste[i])
+    return new_liste
+
+
+# fonction pour trouver d
+def trouver_d(lambda_de_n, e):
+    nombre1 = lambda_de_n
+    composition1 = [1, 0]
+    nombre2 = e
+    composition2 = [0, 1]
+    reste = nombre1 % nombre2
+    composition_reste = soustraire(composition1, multiplier(composition2, nombre1 // nombre2))
+    while reste > 1:
+        nombre1 = nombre2
+        composition1 = composition2
+        nombre2 = reste
+        composition2 = composition_reste
+        reste = nombre1 % nombre2
+        composition_reste = soustraire(composition1, multiplier(composition2, nombre1 // nombre2))
+
+    if composition_reste[1] < 0:
+        return lambda_de_n + composition_reste[1]
+    else:
+        return composition_reste[1]
+
+
 # function to generate
 # prime factors
 def pollard(n):
@@ -97,6 +135,10 @@ if __name__ == '__main__':
 
     print("hello world")
 
+    d = trouver_d(37038, 5)
+    print("d : ------------------")
+    print(d)
+
     # étape1 trouver P,Q de N et le e tout en haut avec polar
     # factor = pollard_rho(n_pour_dh)
     # factor = pollard_p_minus_1(n_pour_dh)
@@ -108,30 +150,33 @@ if __name__ == '__main__':
     print("Q : ------------------------")
     print(factorQ)
 
-    PhiN = (factorP-1)*(factorQ-1)
+    """
+    PhiN = (factorP - 1) * (factorQ - 1)
     print("PhiN")
     print(PhiN)
 
     print("ppcm")
-    ppcm = ppcm((factorP-1),(factorQ-1))
+    ppcm = ppcm((factorP - 1), (factorQ - 1))
     print(ppcm)
 
     # a valider
-    LamdaN = Fraction(PhiN,ppcm)
+    LamdaN = Fraction(PhiN, 2)
     print("lamdaN")
     print(LamdaN)
-
-
-
+    """
     # étape2 trouver phi de n = (p-1)(q-1)
 
     phi_de_n = (factorP - 1) * (factorQ - 1)
     print("Phi de n : ------------------------")
     print(phi_de_n)
     # étape3 trouver d d = inverse e ....
-    delta_de_n = int(phi_de_n / 2)
-    print("Delta de n : ------------------------")
-    print(delta_de_n)
+    lambda_de_n = int(phi_de_n / 2)
+    print("Lambda de n : ------------------------")
+    print(lambda_de_n)
+
+    print("d : ------------------------")
+    d = trouver_d(lambda_de_n, e_pour_dh)
+    print(d)
     # étape4 décryper G P Q avec le d trouver
     # note g est potentiellment mauvais
     # étape5 trouver xy de G^xy 0,1,-1 peut-être
