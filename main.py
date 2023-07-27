@@ -19,10 +19,40 @@ def extended_gcd(a, b):
 
     return gcd, x, y
 
-def func(x,n):
+def pgcd_reste(n, diff):
+    entier = n // diff
+    reste = n - entier * diff
+    ancien_reste = 0
+
+    while reste != 0:
+        new_n = diff
+        diff = reste
+        entier = new_n // diff
+        ancien_reste = reste
+        reste = new_n - entier * diff
+
+    return ancien_reste
+
+def func(x):
     #return pow_mod(x,2,n)+5
-    return x*x + 5
+    return x*x + 459
 def pollard_rho(n):
+    x = func(1)
+    y = func(func(1))
+    diff = y - x
+
+    pgcd = pgcd_reste(n, diff)
+
+    while pgcd == 1:
+        print("x =", x, " pgcd =", pgcd)
+        x = func(x) % n
+        y = func(func(y)) % n
+        diff = y - x
+
+        pgcd = pgcd_reste(n, diff)
+    return pgcd
+
+"""
     x = func(1,n)
     y = func(func(1,n),n)
 
@@ -44,8 +74,7 @@ def pollard_rho(n):
         print("--------")
 
     return entier
-
-
+"""
 
 if __name__ == '__main__':
     n_public = 86062381025757488680496918738059554508315544797
@@ -64,7 +93,7 @@ if __name__ == '__main__':
 
     # étape1 trouver P,Q de N et le e tout en haut avec polar
     #factor = pollard_rho(n_pour_dh)
-    actor = pollard_rho(86429)
+    factor = pollard_rho(86429)
     print(factor)
     # étape2 trouver phi de n = (p-1)(q-1)
     # étape3 trouver d d = inverse e ....
