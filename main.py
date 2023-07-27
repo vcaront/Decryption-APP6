@@ -7,6 +7,15 @@ import  sympy
 from  fractions import Fraction
 
 
+
+def ppcm(a, b):
+    # Calculer le PGCD en utilisant math.gcd()
+    pgcd = np.gcd(a, b)
+
+    # Calculer le PPCM en utilisant la formule
+    ppcm = (a * b) // pgcd
+
+    return ppcm
 # function to generate
 # prime factors
 def pollard(n):
@@ -102,14 +111,20 @@ if __name__ == '__main__':
     print("Q : ------------------------")
     print(facttorq)
 
+    PhiN = (factorP-1)*(facttorq-1)
+    print("PhiN")
+    print(PhiN)
+
+    print("ppcm")
+    ppcm = ppcm((factorP-1),(facttorq-1))
+    print(ppcm)
+
+    # a valider
+    LamdaN = Fraction(PhiN,ppcm)
+    print("lamdaN")
+    print(LamdaN)
 
 
-
-
-
-    print("fauxpositif : ------------------------")
-    fauxpositif = np.sqrt(float(n_pour_dh))
-    print(fauxpositif)
 
     # étape2 trouver phi de n = (p-1)(q-1)
     # étape3 trouver d d = inverse e ....
